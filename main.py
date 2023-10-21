@@ -38,7 +38,7 @@ adminka = AdminChecker()
 def start(message):
     chat_id = message.chat.id
     bot.reply_to(message, 'Добро пожаловать в наш магазин')
-    users = []
+    users = session.query(Users).all()
     for user in users:
         if user.tg_id == message.from_user.id:
             bot.send_message(chat_id,'Вы сотрудник компании')
