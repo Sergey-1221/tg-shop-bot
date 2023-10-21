@@ -23,6 +23,8 @@ class Users(Base):
     id = Column(Integer, primary_key=True)
     tg_id = Column(BigInteger, unique=True)#ID пользоваетеля из телеграма 
     role = Column(String(100), nullable=False)
+    
+
 
 if __name__ == "__main__":
     engine = create_engine('sqlite:///store.db')
