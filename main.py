@@ -8,19 +8,8 @@ bot = telebot.TeleBot(TOKEN)
 
 # Подключение и создание базы данных с помощью SQLAlchemy
 engine = create_engine('sqlite:///store.db')
-Base = declarative_base(bind=engine)
 Session = sessionmaker(bind=engine)
 session = Session()
-
-# Класс модели для таблицы продуктов
-class Product(Base):
-    __tablename__ = 'products'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100))
-    price = Column(Float)
-
-# Создание таблицы продуктов
-#Base.metadata.create_all()
 
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
