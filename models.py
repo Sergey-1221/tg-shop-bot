@@ -17,13 +17,24 @@ class Product(Base):
     name = Column(String(100))
     price = Column(Float)
 
+    basket = relationship("Basket", backref="basket")
+
 
 class Users(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
+    tg_id = Column(BigInteger, primary_key=True, index=True)#ID пользоваетеля из телеграма 
+    role = Column(String(100), nullable=False)#Роль админ/user 
+
+class Basket(Base):
+    __tablename__ = 'basket'
     id = Column(Integer, primary_key=True)
-    tg_id = Column(BigInteger, unique=True)#ID пользоваетеля из телеграма 
-    role = Column(String(100), nullable=False)
-    
+    users_id = Column(Integer, ForeignKey('products.id'))
+    users = relationship("Users", backref="users")
+
+    product_id = Column(Integer, ForeignKey('products.id'))
+    product = relationship("Product", backref="products")
+
+
 
 
 if __name__ == "__main__":
