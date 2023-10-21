@@ -36,7 +36,23 @@ def webAppKeyboard(): #создание клавиатуры с webapp кноп�
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, 'Добро пожаловать в наш магазин!')
+    bot.reply_to(message, 'Добро пожаловать в наш магазин')
+
+'''
+Тест проверки на админа
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, 'Добро пожаловать в наш магазин, для продолжения введите пароль')
+    users = session.query(User).all()
+    for user in users:
+        if user.id == message.id
+            bot.send_message('Вы сотрудник компании')
+            if user.is_admin == True:
+                bot.send_message('Вы админ, можете удалять добавлять и т.д товары')
+
+    
+'''
 
 # Обработчик команды /add
 @bot.message_handler(commands=['add'])
