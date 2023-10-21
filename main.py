@@ -25,38 +25,43 @@ def webAppKeyboard(): #создание клавиатуры с webapp кноп�
 '''
 
 # Обработчик команды /start
+#Проверка на админа
+
+class AdminChecker(self):
+    is_admin = False
+                   
+    
+
+
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.reply_to(message, 'Добро пожаловать в наш магазин')
-
-'''
-Тест проверки на админа
-
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(message, 'Добро пожаловать в наш магазин, для продолжения введите пароль')
-    users = session.query(User).all()
+    users = session.query(Users).all()
     for user in users:
-        if user.id == message.id
+        if user.tg_id == message.id
             bot.send_message('Вы сотрудник компании')
-            if user.is_admin == True:
+            if user.role == 'admin':
+                AdminChecker.is_admin = True
                 bot.send_message('Вы админ, можете удалять добавлять и т.д товары')
 
     
-'''
-
 # Обработчик команды /add
 @bot.message_handler(commands=['add'])
 def add_product(message):
-    chat_id = message.chat.id
-    msg = bot.send_message(chat_id, 'Введите название продукта:')
-    bot.register_next_step_handler(msg, process_name_step)
+    if AdminChecker.is_admin == True:
+        chat_id = message.chat.id
+        msg = bot.send_message(chat_id, 'Введите название продукта:')
+        bot.register_next_step_handler(msg, process_name_step)
+    else:
+        bot.send_message(chat_id, 'Вы не админ')    
 
 def process_name_step(message):
     chat_id = message.chat.id
     name = message.text
     msg = bot.send_message(chat_id, 'Введите цену продукта:')
     bot.register_next_step_handler(msg, process_price_step, name)
+    bot.send_message(chat_id, 'Вы не админ')
+
 
 def process_price_step(message, name):
     chat_id = message.chat.id
@@ -68,20 +73,25 @@ def process_price_step(message, name):
     session.commit()
 
     bot.send_message(chat_id, 'Продукт успешно добавлен!')
+    
 
 # Обработчик команды /list
 @bot.message_handler(commands=['list'])
+
 def get_product_list(message):
-    chat_id = message.chat.id
+    if AdminChecker.is_admin == True:
+        chat_id = message.chat.id
 
     # Получение списка всех продуктов из базы данных
-    products = session.query(Product).all()
+        products = session.query(Product).all()
 
-    response = 'Список продуктов:\n'
-    for product in products:
-        response += f"{product.name} - {product.price} руб.\n"
+        response = 'Список продуктов:\n'
+        for product in products:
+            response += f"{product.name} - {product.price} руб.\n"
 
-    bot.send_message(chat_id, response)
+        bot.send_message(chat_id, response)
+    else:
+        bot.send_message(chat_id, 'Вы не админ')
 
 # Запуск бота
 bot.polling()
