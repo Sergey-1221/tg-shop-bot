@@ -2,7 +2,7 @@ import telebot
 from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from models import Product,Users,Basket
+from models import Product,Users
 
 from models import *
 TOKEN = '6466895331:AAE99D5h-v6yOIw_tit2LnTJP6gA1xArGAQ'
@@ -28,29 +28,31 @@ def webAppKeyboard(): #создание клавиатуры с webapp кноп�
 # Обработчик команды /start
 #Проверка на админа
 
-class AdminChecker(self):
+class AdminChecker:
     is_admin = False
                    
-    
+adminka = AdminChecker()    
 
 
 @bot.message_handler(commands=['start'])
 def start(message):
+    chat_id = message.chat.id
     bot.reply_to(message, 'Добро пожаловать в наш магазин')
-    users = session.query(Users).all()
+    users = []
     for user in users:
-        if user.tg_id == message.id:
-            bot.send_message('Вы сотрудник компании')
+        if user.tg_id == message.from_user.id:
+            bot.send_message(chat_id,'Вы сотрудник компании')
             if user.role == 'admin':
-                AdminChecker.is_admin = True
-                bot.send_message('Вы админ, можете удалять добавлять и т.д товары')
+                adminka.is_admin = True
+                bot.send_message(chat_id,'Вы админ, можете удалять добавлять и т.д товары')
 
     
 # Обработчик команды /add
 @bot.message_handler(commands=['add'])
 def add_product(message):
-    if AdminChecker.is_admin == True:
-        chat_id = message.chat.id
+    chat_id = message.chat.id
+    if adminka.is_admin == True:
+        
         msg = bot.send_message(chat_id, 'Введите название продукта:')
         bot.register_next_step_handler(msg, process_name_step)
     else:
@@ -80,8 +82,9 @@ def process_price_step(message, name):
 @bot.message_handler(commands=['list'])
 
 def get_product_list(message):
-    if AdminChecker.is_admin == True:
-        chat_id = message.chat.id
+    chat_id = message.chat.id
+    if adminka.is_admin == True:
+        
 
     # Получение списка всех продуктов из базы данных
         products = session.query(Product).all()

@@ -36,6 +36,9 @@ class Basket(Base):
 
     product_id = Column(Integer, ForeignKey('products.id'))
     product = relationship("Product", backref="products")
+
+
+
     
 
 
