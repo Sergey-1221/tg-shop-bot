@@ -17,21 +17,21 @@ class Product(Base):
     name = Column(String(100))
     price = Column(Float)
     descriptions = Column(String(500))
-    
+
     basket = relationship("Basket", backref="basket")
 
 
 class Users(Base):
     __tablename__ = 'users'
     tg_id = Column(BigInteger, primary_key=True, index=True)#ID пользоваетеля из телеграма 
-    role = Column(String(100), nullable=False)#Роль админ/user 
+    role = Column(String(100), nullable=False)#Роль admin/user 
 
     basket = relationship("Basket", backref="basket")
 
 class Basket(Base):
     __tablename__ = 'basket'
     id = Column(Integer, primary_key=True)
-    users_id = Column(Integer, ForeignKey('products.id'))
+    users_id = Column(Integer, ForeignKey('users.id'))
     users = relationship("Users", backref="users")
 
     product_id = Column(Integer, ForeignKey('products.id'))
