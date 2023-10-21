@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from models import *
 TOKEN = '6466895331:AAE99D5h-v6yOIw_tit2LnTJP6gA1xArGAQ'
 bot = telebot.TeleBot(TOKEN)
 
@@ -11,10 +12,38 @@ engine = create_engine('sqlite:///store.db')
 Session = sessionmaker(bind=engine)
 session = Session()
 
+
+'''
+#Тест веь-приложения раскоментить чтоб заработало
+@bot.message_handler(commands=['start'])
+def webAppKeyboard(): #создание клавиатуры с webapp кнопкой
+   keyboard = types.ReplyKeyboardMarkup(row_width=1) #создаем клавиатуру
+   webAppTest = types.WebAppInfo("https://telegram.mihailgok.ru") #создаем webappinfo - формат хранения url
+   one_butt = types.KeyboardButton(text="Тестовая страница", web_app=webAppTest) #создаем кнопку типа webapp
+   keyboard.add(one_butt) #добавляем кнопки в клавиатуру
+    return keyboard #возвращаем клавиатуру
+'''
+
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, 'Добро пожаловать в наш магазин!')
+    bot.reply_to(message, 'Добро пожаловать в наш магазин')
+
+'''
+Тест проверки на админа
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, 'Добро пожаловать в наш магазин, для продолжения введите пароль')
+    users = session.query(User).all()
+    for user in users:
+        if user.id == message.id
+            bot.send_message('Вы сотрудник компании')
+            if user.is_admin == True:
+                bot.send_message('Вы админ, можете удалять добавлять и т.д товары')
+
+    
+'''
 
 # Обработчик команды /add
 @bot.message_handler(commands=['add'])
