@@ -87,7 +87,7 @@ def get_product_list(message):
 
         response = 'Список продуктов:\n'
         for product in products:
-            response += f"{product.name} - {product.price} руб.\n"
+            response += f"{product.name} - {product.price} coin.\n"
 
         bot.send_message(chat_id, response)
     else:
