@@ -17,22 +17,19 @@ class Product(Base):
     name = Column(String(100))
     price = Column(Float)
 
-    basket = relationship("Basket", backref="basket")
-
-
-class Users(Base):
+'''
+Для теста на админа
+class User(Base):
     __tablename__ = 'users'
-    tg_id = Column(BigInteger, primary_key=True, index=True)#ID пользоваетеля из телеграма 
-    role = Column(String(100), nullable=False)#Роль админ/user 
+    user_id = Column(Integer)
+    balance = Column(Float)
+    is_admin = Column(Boolean)
 
-class Basket(Base):
-    __tablename__ = 'basket'
-    id = Column(Integer, primary_key=True)
-    users_id = Column(Integer, ForeignKey('products.id'))
-    users = relationship("Users", backref="users")
-
-    product_id = Column(Integer, ForeignKey('products.id'))
-    product = relationship("Product", backref="products")
+class Adminpasswords(Base):
+    __tablename__ = 'passwords'
+    id = Column(Integer)
+    password = Column(String)
+'''
 
 
 
