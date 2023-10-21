@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from models import Product,Users
 
 from models import *
-TOKEN = '6466895331:AAE99D5h-v6yOIw_tit2LnTJP6gA1xArGAQ'
+TOKEN = '6844494900:AAFTOmNtMuCMxppLk0IuwihdA_DZrM8u9FU'
 bot = telebot.TeleBot(TOKEN)
 
 # Подключение и создание базы данных с помощью SQLAlchemy
@@ -46,9 +46,9 @@ def webAppKeyboard(): #создание клавиатуры с webapp кноп�
 def start(message):
     chat_id = message.chat.id
     user = check_user(message.from_user.id)
-    #bot.reply_to(message, 'Добро пожаловать в наш магазин')
-    bot.send_message(chat_id, 'Добро пожаловать в наш магазин', reply_markup=webAppKeyboard())
-    bot.send_message(chat_id,'/me Информация обо мне \n/help список всех команд')
+    bot.reply_to(message, 'Добро пожаловать в наш магазин')
+    #bot.send_message(chat_id, 'Добро пожаловать в наш магазин', reply_markup=webAppKeyboard())
+    #bot.send_message(chat_id,'/me Информация обо мне \n/help список всех команд')
             
 
 @bot.message_handler(commands=['help'])
@@ -95,7 +95,7 @@ def process_image_step(message, name, price):
         file_info = bot.get_file(message.photo[len(message.photo) - 1].file_id)
         downloaded_file = bot.download_file(file_info.file_path)
         name_image = message.photo[1].file_id+".jpg"
-        src = 'image/' + message.photo[1].file_id+".jpg"
+        src = 'static/image/' + message.photo[1].file_id+".jpg"
         
         with open(src, 'wb') as new_file:
             new_file.write(downloaded_file)
