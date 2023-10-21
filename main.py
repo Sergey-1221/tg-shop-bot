@@ -2,6 +2,7 @@ import telebot
 from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from models import Product,Users,Basket
 
 from models import *
 TOKEN = '6466895331:AAE99D5h-v6yOIw_tit2LnTJP6gA1xArGAQ'
@@ -38,7 +39,7 @@ def start(message):
     bot.reply_to(message, 'Добро пожаловать в наш магазин')
     users = session.query(Users).all()
     for user in users:
-        if user.tg_id == message.id
+        if user.tg_id == message.id:
             bot.send_message('Вы сотрудник компании')
             if user.role == 'admin':
                 AdminChecker.is_admin = True
