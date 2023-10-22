@@ -1,6 +1,6 @@
 import telebot
 from telebot import types
-from sqlalchemy import create_engine, Column, Integer, String, Float
+from sqlalchemy import create_engine, Column, Integer, String, Float, select
 from sqlalchemy.orm import sessionmaker
 from models import Product,Users
 
@@ -29,7 +29,8 @@ def check_user(user_id):
 
     return {
         "object": user,
-        "admin": is_admin
+        "admin": is_admin,
+        "id": user_id
         }
 
 
@@ -47,7 +48,7 @@ def start(message):
     chat_id = message.chat.id
     user = check_user(message.from_user.id)
     bot.reply_to(message, 'Добро пожаловать в наш магазин')
-    bot.send_message(chat_id, 'Добро пожаловать в наш магазин', reply_markup=webAppKeyboard())
+    #bot.send_message(chat_id, 'Добро пожаловать в наш магазин', reply_markup=webAppKeyboard())
     #bot.send_message(chat_id,'/me Информация обо мне \n/help список всех команд')
             
 
@@ -115,6 +116,13 @@ def process_image_step(message, name, price):
 
 def get_product_list(message):
     chat_id = message.chat.id
+    """
+    user = check_user(message.from_user.id)
+    res = session.query(Basket).filter(Basket.users_id==str(user["id"]))
+    for row in res:
+        print(row)
+        #print ("ID:", row.id, "users_id",row.users_id, "product_id:",row.product_id)
+    
     if adminka.is_admin == True:
         
 
@@ -128,6 +136,7 @@ def get_product_list(message):
         bot.send_message(chat_id, response)
     else:
         bot.send_message(chat_id, 'Вы не админ')
+    """
 
 # Запуск бота
 bot.polling()

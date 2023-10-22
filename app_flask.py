@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from models import *
 
 from sqlalchemy.orm import sessionmaker
+
 engine = create_engine('sqlite:///store.db')
 Session = sessionmaker(bind=engine)
 
@@ -12,7 +13,6 @@ app = Flask(__name__)
 def hello_world():
     session = Session()
     product = session.query(Product).all()
-    product = product+product+product+product
     return render_template("index.html", product=product)
 
 @app.route("/add_product")
@@ -34,7 +34,7 @@ def add_product():
 
 @app.route("/cart")
 def cart():
-        
+    
     return render_template("cart.html")
     
     #product = session.query(Product).all()
