@@ -15,7 +15,7 @@
 		<div class="col-4" style="margin-bottom: 20px;">
 			
 			<img style="width:100%; vertical-align: top;" src="{{ url_for('static', filename='image/'+prod.image) }}">
-			<div style="margin-bottom: 10px;"><b>{{prod.name}}</b> - {{prod.price}}</div>
+			<div style="margin-bottom: 10px;"><b style="font-size:13px;" >{{prod.name}}</b> - {{prod.price}}</div>
 			<button onclick="buy(this, {{prod.id}})" type="button" class="btn btn-success">Купить</button>
 		</div>
 		{% endfor %}
