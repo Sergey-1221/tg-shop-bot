@@ -20,21 +20,26 @@ def add_product():
     session = Session()
     tg_id = request.args.get('tg_id')
     p_id = request.args.get('p_id')
-    print(tg_id, p_id)
     if p_id != None and tg_id != None:
         try:
             basket = Basket(tg_id=tg_id, product_id=p_id)
             session.add(basket)
             session.commit()
             return "true"
+
         except Exception as e:
             pass
         
     return "false"
+
+@app.route("/cart")
+def cart():
+        
+    return render_template("cart.html")
     
     #product = session.query(Product).all()
     #product = product+product+product+product
-    
+     
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=50100, debug=True, ssl_context=("cert.pem", "key.pem"))
