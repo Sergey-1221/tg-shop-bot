@@ -35,7 +35,7 @@ def check_user(user_id):
 
 def webAppKeyboard(): #создание клавиатуры с webapp кнопкой
    keyboard = types.ReplyKeyboardMarkup(row_width=1) #создаем клавиатуру
-   webAppTest = types.WebAppInfo("https://192.168.26.27:50100") #создаем webappinfo - формат хранения url
+   webAppTest = types.WebAppInfo("https://127.0.0.1:50100") #создаем webappinfo - формат хранения url
    one_butt = types.KeyboardButton(text="Товары", web_app=webAppTest) #создаем кнопку типа webapp
    keyboard.add(one_butt) #добавляем кнопки в клавиатуру
 
@@ -47,7 +47,7 @@ def start(message):
     chat_id = message.chat.id
     user = check_user(message.from_user.id)
     bot.reply_to(message, 'Добро пожаловать в наш магазин')
-    #bot.send_message(chat_id, 'Добро пожаловать в наш магазин', reply_markup=webAppKeyboard())
+    bot.send_message(chat_id, 'Добро пожаловать в наш магазин', reply_markup=webAppKeyboard())
     #bot.send_message(chat_id,'/me Информация обо мне \n/help список всех команд')
             
 
